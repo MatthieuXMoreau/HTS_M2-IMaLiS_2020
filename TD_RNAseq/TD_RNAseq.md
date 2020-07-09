@@ -17,7 +17,7 @@
 **Aim**: Getting started with bioinformatics tools and statistical approaches applied to analyze results coming from RNA-Seq technology. Data used in these practical were collected from the following publication:
 
 >Guida, A., Lindstädt, C., Maguire, S. L., Ding, C., Higgins, D. G., Corton, N. J., Berriman, M., et al. (2011). Using RNA-seq to determine the transcriptional landscape and the hypoxic response of the pathogenic yeast Candida parapsilosis. BMC genomics
->[Guida* et al*. BMC Genomics 2011 ](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628)
+>[Guida *et al*. BMC Genomics 2011 ](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628)
 
 #
 
@@ -70,7 +70,7 @@ pwd
 
 Two different files will be analyzed in this practical :
 - ***O2rep2_SRR352263.fastq*** refereed to a transcriptome analysis of yeasts C. parapsilosis under normoxic condition.
-- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts C. parapsilosis under hypoxic condition (see [Guida* et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information).
+- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts C. parapsilosis under hypoxic condition (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information).
 
 In a first step, quality controls will be perform on each FASTQ files in order to evaluate the quality of the sequences and identify potential problems that could impact the following analyses. Dedicated JAVA software will be used [FASTQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) . Note that other software exists.
 
