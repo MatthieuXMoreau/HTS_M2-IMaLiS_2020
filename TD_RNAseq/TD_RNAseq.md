@@ -216,7 +216,7 @@ cd 2-Mapping
 module add bowtie/1.2.2
 ```
 
-3. Map the reads to the reference genome
+4. Map the reads to the reference genome
 
 >- **-S** will output the result in SAM format
 >- **/shared/projects/ens_HTseq_2020/RNAseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
