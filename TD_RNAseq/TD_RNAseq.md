@@ -415,7 +415,7 @@ In their article (Guida et al., 2011), the authors repeated the experiment 6 tim
 
 1. Connect to Rstudio serveur of the IFB
 
-In a web browser, connect to https://rstudio.cluster.france-bioinformatique.fr/auth-sign-in and log in using your user name and pasword (same as for ssh connection)
+In a web browser, connect to https://rstudio.cluster.france-bioinformatique.fr/auth-sign-in and log in using your user name and password (same as for ssh connection)
 
 ![Rstudio_login](./images/Rstudio.png)
 
@@ -429,13 +429,12 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the notbook containing all the code needed for the practical.
-Save it into your personal folder using *File > Save As* and the path ***/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical/DEseq2.Rmd***
+In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.
+Save it into your personal folder using *File > Save As* and the path ***/shared/projects/ens_HTseq_2020/your login/RNAseq_Practical/DEseq2.Rmd***
 
 3. Conduct statistical analysis in R
 
-At this point you can use the notebook to run each chunk of code and conserve all the output along with the script
-
+At this point you can use the notebook to conduct the statistical analysis
 
 ----
 
@@ -446,7 +445,7 @@ library(DESeq2)
 
 ```r
 # data reading
-countData = read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/count_data_diffAnalysis.txt", row.names = 1, header = TRUE)
+countData <- read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/count_data_diffAnalysis.txt", row.names = 1, header = TRUE)
 
 # general information
 row.names(countData)
@@ -455,15 +454,15 @@ head(countData)
 
 ```r
 # Loading metadata for the experiment
-# N = Normoxic condition (with O2)
-# H = Hypoxic condition  (without O2)
-colData = read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/design.txt", row.names = 1, header = TRUE)
+# N <- Normoxic condition (with O2)
+# H <- Hypoxic condition  (without O2)
+colData <- read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/design.txt", row.names = 1, header = TRUE)
 
 ```
 
 ```r
 # DESeqDataSet object creation
-dds = DESeqDataSetFromMatrix(countData = countData, colData = colData, design = ~condition)
+dds <- DESeqDataSetFromMatrix(countData = countData, colData = colData, design = ~condition)
 head(dds)
 
 ```
@@ -471,7 +470,7 @@ head(dds)
 ```r
 # normalization of counts
 # calculation of sizeFactors
-dds = estimateSizeFactors(dds)
+dds <- estimateSizeFactors(dds)
 sizeFactors(dds)
 ```
 
@@ -488,14 +487,14 @@ boxplot(log2(counts(dds,normalized=TRUE)+1))
 
 ```r
 # variance estimations
-dds = estimateDispersions(dds)
+dds <- estimateDispersions(dds)
 plotDispEsts(dds)
 ```
 
 ```r
 # differential analysis
-dds = nbinomWaldTest(dds)
-res = results(dds)
+dds <- nbinomWaldTest(dds)
+res <- results(dds)
 mcols(res,use.names=TRUE)
 resultsNames(dds)
 res <- as.data.frame(res)
@@ -537,14 +536,14 @@ plotMA(res)
 hist(res$pvalue,breaks=20,col="grey")
 # PCA plots
 vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
-p = plotPCA(vsd)
-p = update(p, panel = function(x, y, ...) {lattice::panel.xyplot(x, y, ...);lattice::ltext(x=x, y=y, labels=rownames(colData(vsd)), pos=1, offset=1, cex=0.8)})
+p <- plotPCA(vsd)
+p <- update(p, panel = function(x, y, ...) {lattice::panel.xyplot(x, y, ...);lattice::ltext(x=x, y=y, labels=rownames(colData(vsd)), pos=1, offset=1, cex=0.8)})
 print(p)
 ```
 
 ```r
 # genes are sorted according to adjusted p-values
-res = res[order(res$padj),]
+res <- res[order(res$padj),]
 dim(res)
 res[rownames(res) == "CPAR2_212440",]
 
