@@ -9,14 +9,6 @@
 - [6. Search for Differentially Expressed Genes](#DEtest)
 - [7. Usefull commande to work on the cluster](#Troubleshooting)
 
-### Objectif of these practical :
-
-During this practical session, you will learn how to conduct an analysis of RNAseq data ...
-
-You will work remotely on the [IFB-core cluster](https://www.france-bioinformatique.fr/le-cluster-ifb-core/) located in **Orsay (IDRIS)**.  
-Because it it a shared infrastructure you will have to pay attention to the command you use to start a job. **They all must start with *srun***.  
-You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) for more detail about logging, data management, job submission. 
-
 
 #
 
@@ -24,7 +16,21 @@ You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io
 
 #
 
-**Aim**: Getting started with bioinformatics tools and statistical approaches applied to analyze results coming from RNA-Seq technology. Data used in these practical were collected from the following publication:
+### Objectif of these practical :
+
+During this practical session, you will learn :
+
+  * To conduct an analysis of RNAseq raw fastq files. You will first perform **quality control** of the sequencing file before proceding to the **mapping** of the reads on the reference transcriptome.
+
+For this part of the practical, you will work remotely on the [IFB-core cluster](https://www.france-bioinformatique.fr/le-cluster-ifb-core/) located in **Orsay (IDRIS)**. Because it it a shared infrastructure you will have to pay attention to the command you use to start a job. **They all must start with *srun***.  
+You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) for more detail about logging, data management, job submission. 
+
+  * To perform statistical analysis of the gene expression matrices in order to identify differentialy expressed genes between two conditions
+ 
+
+### Dataset used :
+
+Data used in these practical were collected from the following publication:
 
 >Guida, A., Lindstädt, C., Maguire, S. L., Ding, C., Higgins, D. G., Corton, N. J., Berriman, M., et al. (2011). Using RNA-seq to determine the transcriptional landscape and the hypoxic response of the pathogenic yeast Candida parapsilosis. BMC genomics
 >[Guida *et al*. BMC Genomics 2011 ](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628)
