@@ -435,7 +435,7 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
+In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
 Save it into your personal folder using *File > Save As* and the path ***/shared/projects/ens_HTseq_2020/your login/RNAseq_Practical/DEseq2.Rmd***
 
 3. Conduct statistical analysis in R
