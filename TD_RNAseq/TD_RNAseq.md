@@ -7,6 +7,7 @@
 - [4. Mapping of Reads on the Reference Genome](#mapping)
 - [5. Alignments Visualization with a Genome Browser](#genome_browser)
 - [6. Search for Differentially Expressed Genes](#DEtest)
+- [7. Usefull commande to work on the cluster](#Troubleshooting)
 
 #
 
@@ -35,7 +36,7 @@
 
   * On MacOS and Linux
 ```bash
-ssh -XY <login>@core.cluster.france-bioinformatique.fr
+ssh <login>@core.cluster.france-bioinformatique.fr
 ```
 
 #### 2 - Set up your working environment
@@ -267,7 +268,7 @@ Your directory should now look like this :
 
 #
 
-The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/igv/home) (IGV) is a high-performance **visualization tool** for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based, next-generation sequence data and genomic annotations. In this practical, we will use IGV to visualize mapping results (see previous section). For that, **SAM files** has to be converted into **BAM files** (a binary version of SAM) and “sorted” according to the genomic sequence. We will use programs available in the [SAMTOOLS](http://samtools.sourceforge.net/) suite.
+The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/igv/home) (IGV) is a high-performance **visualization tool** for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based, next-generation sequence data and genomic annotations. In this practical, we will use IGV to visualize mapping results (see previous section). For that, **SAM files** has to be converted into **BAM files** (a binary version of SAM) and “sorted” according to the genomic sequence. We will use programs available in the [**Samtools**](http://samtools.sourceforge.net/) suite.
 
 1. Sort and Converte *.sam* into *.bam* files
 
@@ -429,7 +430,7 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.
+In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
 Save it into your personal folder using *File > Save As* and the path ***/shared/projects/ens_HTseq_2020/your login/RNAseq_Practical/DEseq2.Rmd***
 
 3. Conduct statistical analysis in R
@@ -438,118 +439,43 @@ At this point you can use the notebook to conduct the statistical analysis
 
 ----
 
-```r
-# library loading
-library(DESeq2)
-```
-
-```r
-# data reading
-countData <- read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/count_data_diffAnalysis.txt", row.names = 1, header = TRUE)
-
-# general information
-row.names(countData)
-head(countData)
-```
-
-```r
-# Loading metadata for the experiment
-# N <- Normoxic condition (with O2)
-# H <- Hypoxic condition  (without O2)
-colData <- read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/design.txt", row.names = 1, header = TRUE)
-
-```
-
-```r
-# DESeqDataSet object creation
-dds <- DESeqDataSetFromMatrix(countData = countData, colData = colData, design = ~condition)
-head(dds)
-
-```
-
-```r
-# normalization of counts
-# calculation of sizeFactors
-dds <- estimateSizeFactors(dds)
-sizeFactors(dds)
-```
-
-```r
-# bar plots
-barplot(colSums(counts(dds)))
-```
-
-```r
-# boxplots
-boxplot(log2(counts(dds)+1))
-boxplot(log2(counts(dds,normalized=TRUE)+1))
-```
-
-```r
-# variance estimations
-dds <- estimateDispersions(dds)
-plotDispEsts(dds)
-```
-
-```r
-# differential analysis
-dds <- nbinomWaldTest(dds)
-res <- results(dds)
-mcols(res,use.names=TRUE)
-resultsNames(dds)
-res <- as.data.frame(res)
-```
-
-
-```r
-# diagnostic plots
-attach(res)
-
-#volcano plot
-plot(log2FoldChange, -log10(padj),pch =21, main = "Normoxic VS Hypoxic")
-abline(v = c(-2,2), col ="red")
-abline(h = 1.3, col= "red", lty =2)
-points(log2FoldChange[log2FoldChange >2 & padj < 0.05], -1 * log10(padj[log2FoldChange >2  & padj < 0.05]), col ="green")
-points(log2FoldChange[log2FoldChange <(-2) & padj < 0.05], -1 * log10(padj[log2FoldChange <(-2)  & padj < 0.05]), col ="red")
-legend("topright", c("107 genes with LogFc  > 2 in Hypoxic VS normoxic", " 85 genes with LogFc  > 2 in normoxic VS hypoxic"),pch = 21, col = c("red", "green"), bty ="n", cex =.9)
-```
-
-```r
-FoldFc_sup2 <- res[res[,2] < (-2) & res[,5] <0.05,]
-nrow(FoldFc_sup2)
-write.table(FoldFc_sup2, row.names = T, quote = F, sep = "\t", file = "../results/RNAseq_FoldFc_sup2.txt")
-
-```
-
-```r
-FoldFc_inf2 <- res[res[,2] <(-2),]
-nrow(FoldFc_inf2)
-```
-
-```r
-# MA plot
-plotMA(res)
-```
-
-```r
-# Histogram of the p values
-hist(res$pvalue,breaks=20,col="grey")
-# PCA plots
-vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
-p <- plotPCA(vsd)
-p <- update(p, panel = function(x, y, ...) {lattice::panel.xyplot(x, y, ...);lattice::ltext(x=x, y=y, labels=rownames(colData(vsd)), pos=1, offset=1, cex=0.8)})
-print(p)
-```
-
-```r
-# genes are sorted according to adjusted p-values
-res <- res[order(res$padj),]
-dim(res)
-res[rownames(res) == "CPAR2_212440",]
-
-write.table(res, "res.txt", row.name=T, quote=F, sep='\t')
-```
-
 **Search for differentially expressed genes using DESeq R package.**
 **How many genes are selected with different p-value thresholds (5%, 1%, etc.) ?**
 **Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.**
+
+#
+
+## Usefull commande to work on the cluster <a name="Troubleshooting"></a>
+
+#
+
+1. To have information on your current job :
+
+```bash
+squeue -u <your login>
+```
+2. To list all your running/pending jobs :
+
+```bash
+squeue -u <your login> -t RUNNING
+
+squeue -u <your login> -t PENDING
+```
+
+3. To cancel/stop a job :
+
+```bash
+scancel <jobid>
+```
+
+4. To cancel all yout jobs:
+
+```bash
+scancel -u <your login>
+```
+
+5. To cancel all your pending jobs :
+
+```bash
+scancel -t PENDING -u <your login>
+```
