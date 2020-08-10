@@ -9,6 +9,15 @@
 - [6. Search for Differentially Expressed Genes](#DEtest)
 - [7. Usefull commande to work on the cluster](#Troubleshooting)
 
+### Objectif of these practical :
+
+During this practical session, you will learn how to conduct an analysis of RNAseq data ...
+
+You will work remotely on the [IFB-core cluster](https://www.france-bioinformatique.fr/le-cluster-ifb-core/) located in **Orsay (IDRIS)**.  
+Because it it a shared infrastructure you will have to pay attention to the command you use to start a job. **They all must start with *srun***.  
+You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) for more detail about logging, data management, job submission. 
+
+
 #
 
 ## Introdution <a name="intro"></a>
@@ -108,7 +117,7 @@ cd 1-QualityControl
 3. Get Fastqc available in your environment
 
 ```bash
-module add fastqc/0.11.8
+module load fastqc/0.11.8
 ```
 
 4. Check the help page of the programme to see its usage and parameters 
@@ -214,7 +223,7 @@ cd 2-Mapping
 3. Load Bowtie into your environment
 
 ```bash
-module add bowtie/1.2.2
+module load bowtie/1.2.2
 ```
 
 4. Map the reads to the reference genome
@@ -279,7 +288,7 @@ The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/ig
 >- **>** write the output in the bam file
 
 ```bash
-module add samtools/1.9
+module load samtools/1.9
 ```
 
 ```bash
@@ -388,7 +397,7 @@ cd  3-ORF_reads_count
 3. Calculate for each ORF the number of reads that were aligned to it
 
 ```bash
-module add bedtools/2.27.1
+module load bedtools/2.27.1
 ```
 
 ```bash
