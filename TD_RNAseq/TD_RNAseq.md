@@ -418,7 +418,12 @@ In their article (Guida et al., 2011), the authors repeated the experiment 6 tim
 
 In a web browser, connect to https://rstudio.cluster.france-bioinformatique.fr/auth-sign-in and log in using your user name and password (same as for ssh connection)
 
-![Rstudio_login](./images/Rstudio.png)
+<p align="center">
+
+<img src="./images/Rstudio.png" width="30%">
+
+</p>
+
 
 You will reached the familiar Rstudio environment :
 
