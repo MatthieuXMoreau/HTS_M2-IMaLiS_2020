@@ -7,7 +7,7 @@
 - [4. Mapping of Reads on the Reference Genome](#mapping)
 - [5. Alignments Visualization with a Genome Browser](#genome_browser)
 - [6. Search for Differentially Expressed Genes](#DEtest)
-- [7. Usefull commande to work on the cluster](#Troubleshooting)
+- [7. Usefull commands to work on the cluster](#Troubleshooting)
 
 
 #
@@ -465,7 +465,7 @@ At this point you can use the notebook to conduct the statistical analysis
 
 #
 
-## Usefull commande to work on the cluster <a name="Troubleshooting"></a>
+## Usefull commands to work on the cluster <a name="Troubleshooting"></a>
 
 #
 
