@@ -44,10 +44,18 @@ Data used in these practical were collected from the following publication:
 #### 1 - Sign in on the server
   * On Windows using [MobaXterm](https://mobaxterm.mobatek.net/)
   
-> Session : ssh
-> Host : core.cluster.france-bioinformatique.fr
-> Specify username : ticked and filled in
-> Advanced SSH settings : X11-Forwarding
+> 1. In **Session** > **SSH**  
+> Remote Host : core.cluster.france-bioinformatique.fr  
+> Specify username : ticked and filled in **your login**
+> Advanced SSH settings : tick X11-Forwarding  
+> 2. Enter your passwork
+> 3. You should be logged on the IFB Core cluster 
+
+<p align="center">
+
+<img src="./images/MobaXtrem.png" width="100%">
+
+</p>
 
   * On MacOS and Linux
 ```bash
