@@ -32,7 +32,7 @@ You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io
 
 Data used in these practical were collected from the following publication:
 
->Guida, A., Lindstädt, C., Maguire, S. L., Ding, C., Higgins, D. G., Corton, N. J., Berriman, M., et al. (2011). Using RNA-seq to determine the transcriptional landscape and the hypoxic response of the pathogenic yeast Candida parapsilosis. BMC genomics
+>Guida, A., Lindstädt, C., Maguire, S. L., Ding, C., Higgins, D. G., Corton, N. J., Berriman, M., et al. (2011). Using RNA-seq to determine the transcriptional landscape and the hypoxic response of the pathogenic yeast *Candida parapsilosis*. BMC genomics
 >[Guida *et al*. BMC Genomics 2011 ](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628)
 
 #
@@ -69,11 +69,11 @@ cd /shared/projects/2020_eu_HTSdataAnalysis/<your login>/
 ```
 2. Create a directory that will contain all results of the upcoming analyses.
 ```bash
-mkdir RNAseq_Practical
+mkdir RNAseq
 ```
 3. Go to the newly created directory
 ```bash
-cd RNAseq_Practical
+cd RNAseq
 ```
 
 4. Check your are in the right directory using `pwd`:
@@ -81,7 +81,7 @@ cd RNAseq_Practical
 ```bash
 pwd
 
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 ```
 
 #
@@ -90,15 +90,15 @@ pwd
 
 #
 
-**FASTQ** files are raw results from RNA-Seq experiments. These files comprise all the **sequences** (or reads) obtained with the sequencer machine (Illumina technology here), together with **base quality scores** (PHRED scores).
+**Fastq** files are raw results from RNA-Seq experiments. These files comprise all the **sequences** (or reads) obtained with the sequencer machine (Illumina technology here), together with **base quality scores** (PHRED scores).
 
 Two different files will be analyzed in this practical :
-- ***O2rep2_SRR352263.fastq*** refereed to a transcriptome analysis of yeasts C. parapsilosis under normoxic condition.
-- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts C. parapsilosis under hypoxic condition (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information).
+- ***O2rep2_SRR352263.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under normoxic condition.
+- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under hypoxic condition (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information).
 
-In a first step, quality controls will be perform on each FASTQ files in order to evaluate the quality of the sequences and identify potential problems that could impact the following analyses. Dedicated JAVA software will be used [FASTQC](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) . Note that other software exists.
+In a first step, quality controls will be perform on each FASTQ files in order to evaluate the quality of the sequences and identify potential problems that could impact the following analyses. Dedicated JAVA software will be used : [**FastQC 0.11.8**](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) . Note that other software exists.
 
-FastQC is a quality control application for high throughput sequence data. It provides an interactive application to review the results of several different quality control checks, and create an HTML based report. The main functions of FastQC are:
+FastQC is a quality control application for high throughput sequence data. It provides an interactive application to review the results of several different quality control checks, and create an **HTML based report**. The main functions of FastQC are:
 
 >  - **Import of data** from BAM, SAM or FastQ files (any variant)
 >   - Providing a **quick overview** to tell you in which areas there may be problems
@@ -107,7 +107,7 @@ FastQC is a quality control application for high throughput sequence data. It pr
 >   - **Offline operation** to allow automated generation of reports without running the interactive application
 
 
-####  To do: Use FASTQC to evaluate the quality of sequences in each FASTQ files.
+####  TO DO: Use FASTQC to evaluate the quality of sequences in each FASTQ files. Using information from the [Fastqc help page](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help) as well as exemples of [good](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/good_sequence_short_fastqc.html)  and [bad](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html) illumina data as references, compare results between the two FASTQ files. Is there any concern related to the following analyses?
 
 
 1. Create a new directory to store the output of fastqc
@@ -118,7 +118,7 @@ mkdir 1-QualityControl
 Using the `tree` command, your directory should look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
 ```
@@ -156,7 +156,7 @@ srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/noO2rep2_SRR3
 At this point you should see the two new files in your directory using the `tree` command
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
 	│
@@ -169,17 +169,17 @@ At this point you should see the two new files in your directory using the `tree
 ```bash
 ### OPEN A NEW TERMINAL
 ## Create a directory where to put generated files on your computer
-mkdir ~/Desktop/RNAseq_Practical/
+mkdir ~/Desktop/RNAseq/
 
 ## Go to the location on your computer, where you want to put the data, for example:
-cd ~/Desktop/RNAseq_Practical/
+cd ~/Desktop/RNAseq/
 
 ## Download the first file
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
+scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
 # Enter your password
 
 ## Download the second
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
+scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
 # Enter your password
 ```
 7. Open a new shell and Unzip the files in your personal computer with `uzip`
@@ -190,8 +190,6 @@ unzip *.zip
 
 8. Open the *.html* report with firefox
 
-Using information from the [Fastqc help page](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help) as well as exemples of [good](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/good_sequence_short_fastqc.html)  and [bad](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html) illumina data as references, compare results between the two FASTQ files.
-**Is there any concern related to the following analyses?**
 
 #
 
@@ -199,17 +197,17 @@ Using information from the [Fastqc help page](http://www.bioinformatics.babraham
 
 #
 
-Once data quality is verified, reads will be mapped onto the reference genome of yeast C. parapsilosis. The **genome sequence** of C. parapsilosis and its **annotations** (locations of ORFs) were retrieved from the [CGD database](http://www.candidagenome.org/ "Candidat genome database").
+Once data quality is verified, reads will be mapped onto the reference genome of yeast *C. parapsilosis*. The **genome sequence** of *C. parapsilosis* and its **annotations** (locations of ORFs) were retrieved from the [CGD database](http://www.candidagenome.org/ "Candidat genome database").
 
-Different aligner and algorithms for RNA-Seq analysis exist. We will use [Bowtie1.2.2](http://bowtie-bio.sourceforge.net/index.shtml)  an ultrafast (memory-efficient) short read aligner. As an input, BOWTIE uses a FASTQ file (with reads to be aligned) and **“pre-built indexes”** of the reference genome. These indexes are named ***“C_parapsilosis.1.ebwt”***, ***“C_parapsilosis.2.ebwt”***, etc. They will allow boosting the alignment process.  
-As an output, BOWTIE provides a SAM file. SAM (Sequence Alignment/Map) is a generic format for storing large nucleotide sequence alignments.
+Different aligner and algorithms for RNA-Seq analysis exist. We will use [**Bowtie 1.2.2**](http://bowtie-bio.sourceforge.net/manual.shtml)  an ultrafast (memory-efficient) short read aligner. As an input, Bowtie uses a **Fastq file** (with reads to be aligned) and **“pre-built indexes”** of the reference genome. These indexes are named ***“C_parapsilosis.1.ebwt”***, ***“C_parapsilosis.2.ebwt”***, etc. They will allow boosting the alignment process.  
+As an output, Bowtie provides a **SAM file**. SAM (Sequence Alignment/Map) is a generic format for storing large nucleotide sequence alignments.
 
-#### To do: Run sequence alignments with Bowtie using the two FASTQ files.
+#### TO DO : Run sequence alignments with Bowtie using the two FASTQ files. Take a look at Bowtie documentation and describe the specified options (*-m* in particular). What is the proportion of reads aligned on the reference genome?
 
 1. Create a new directory to store the output of fastqc
 
 ```bash
-#Go to the parental directory "RNAseq_Practical"
+#Go to the parental directory "RNAseq"
 cd ../
 
 #Create a new directory to store results of the alignment
@@ -218,7 +216,7 @@ mkdir 2-Mapping
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
 	│
@@ -263,7 +261,7 @@ srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/bowtie_indexes/C_
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
 	│
@@ -282,16 +280,13 @@ Your directory should now look like this :
 	└─── noO2rep2_SRR352263_bowtie_mapping.out
 ```
 
-**Take a look at [Bowtie documentation](http://bowtie-bio.sourceforge.net/manual.shtml) and describe the specified options (-m in particular).**
-**What is the proportion of reads aligned on the reference genome?**
-
 #
 
 ## Alignments Visualization with a Genome Browser <a name="genome_browser"></a>
 
 #
 
-The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/igv/home) (IGV) is a high-performance **visualization tool** for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based, next-generation sequence data and genomic annotations. In this practical, we will use IGV to visualize mapping results (see previous section). For that, **SAM files** has to be converted into **BAM files** (a binary version of SAM) and “sorted” according to the genomic sequence. We will use programs available in the [**Samtools**](http://samtools.sourceforge.net/) suite.
+The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/igv/home) (IGV) is a high-performance **visualization tool** for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based, next-generation sequence data and genomic annotations. In this practical, we will use IGV to visualize mapping results (see previous section). For that, **SAM files** has to be converted into **BAM files** (a binary version of SAM) and “sorted” according to the genomic sequence. We will use programs available in the [**Samtools 1.9**](http://samtools.sourceforge.net/) suite.
 
 1. Sort and Converte *.sam* into *.bam* files
 
@@ -323,10 +318,34 @@ srun samtools index O2rep2_SRR352263_bowtie_sorted.bam
 #Index the noO2 condition
 srun samtools index noO2rep2_SRR352263_bowtie_sorted.bam
 ```
+3. Download the resulting bam files on your computer
 
-3. Visualize mapping results with IGV
+```bash
+# To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-Once the IGV program is launched, it is necessary to **import the reference genome** “Genomes/Greate .genome File...” (see below). Select the FASTA file with the genomic sequence of C. parapsilosis “C_parapsilosis_CGD.fasta” (“Browse / FASTA file”) and **enter information regarding ORFs positions**, GFF file “C_parapsilosis_ORFs.gff” (“Browse Gene file”).  
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam .
+
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam.bai .
+
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep2_SRR352263_bowtie_sorted.bam .
+
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep2_SRR352263_bowtie_sorted.bam.bai .
+```
+You will also need the reference genome sequence and gene annotation files
+
+```bash
+# To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
+
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_CGD.fasta .
+
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff .
+```
+
+4. Visualize mapping results with IGV
+
+> Download [IGV](http://software.broadinstitute.org/software/igv/download) and follow the instalation instructions according to your OS
+
+Once the IGV program is launched, it is necessary to **import the reference genome** “Genomes/Create .genome File...” (see below). Select the FASTA file with the genomic sequence of *C. parapsilosis* “C_parapsilosis_CGD.fasta” (“Browse / FASTA file”) and **enter information regarding ORFs positions**, GFF file “C_parapsilosis_ORFs.gff” (“Browse Gene file”).  
 Finally, give a name to your genome (“Unique identifier” and “Descriptive name”) and press “OK”. Save the genome file in your home.  
 **Warning!** In order to IGV to create a index of your genome, you need to copy the reference genome FASTA file in writable directory.
 
@@ -353,10 +372,7 @@ Mapping results (“.sorted.bam” files) can now be imported (“File / Load fr
 
 </p>
 
-
-**Compare your results with those presented in the original publication :** 
-**Did the authors use stranded-specific protocols ?**
-**Can you observe differences between hypoxic and normoxic conditions ?**
+#### TO DO : Compare your results with those presented in the original publication : Did the authors use stranded-specific protocols ? Can you observe differences between hypoxic and normoxic conditions ?
 
 
 #
@@ -365,14 +381,14 @@ Mapping results (“.sorted.bam” files) can now be imported (“File / Load fr
 
 #
 
-To identify genes whose expression is different between hypoxic and normoxic conditions, we will **count and compare the number of reads mapped to each ORF**. A program available in the BEDTOOLS suite will be used.
+To identify genes whose expression is different between hypoxic and normoxic conditions, we will **count and compare the number of reads mapped to each ORF**. A program available in the [**Bedtools 2.27.1**]( https://github.com/arq5x/bedtools2/blob/master/README.md) suite will be used.
 
-#### Calculate for each ORF the number of reads that were aligned (normoxic and hypoxic conditions).
+#### TO DO : Calculate for each ORF the number of reads that were aligned (normoxic and hypoxic conditions).
 
 1. Create a new directory to store the ORF count matrix
 
 ```bash
-#Go to the parental directory "RNAseq_Practical"
+#Go to the parental directory "RNAseq"
 cd ../
 
 #Create a new directory to store results of the alignment
@@ -381,7 +397,7 @@ mkdir 3-ORF_reads_count
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
 	│
@@ -431,11 +447,13 @@ srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_ge
 4. Unload the tools you used
 
 ```bash
-module rm samtools/1.9 bowtie/1.2.2 bedtools/2.27.1
+module unload samtools/1.9 bowtie/1.2.2 bedtools/2.27.1
 ```
 
 #### Statistical analysis using DEseq2 R package.
 In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
+
+#### TO DO : Search for differentially expressed genes using DESeq R package. How many genes are selected with different p-value thresholds (5%, 1%, etc.) ? Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.
 
 1. Connect to Rstudio serveur of the IFB
 
@@ -459,17 +477,13 @@ You will reached the familiar Rstudio environment :
 2. Save the working notebook in your personal environment
 
 In *File > Open File...* enter the path ***/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
-Save it into your personal folder using *File > Save As* and the path ***/shared/projects/2020_eu_HTSdataAnalysis/your login/RNAseq_Practical/DEseq2.Rmd***
+Save it into your personal folder using *File > Save As* and the path ***/shared/projects/2020_eu_HTSdataAnalysis/your login/RNAseq/DEseq2.Rmd***
 
 3. Conduct statistical analysis in R
 
 At this point you can use the notebook to conduct the statistical analysis
 
 ----
-
-**Search for differentially expressed genes using DESeq R package.**
-**How many genes are selected with different p-value thresholds (5%, 1%, etc.) ?**
-**Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.**
 
 #
 
