@@ -65,7 +65,7 @@ ssh <login>@core.cluster.france-bioinformatique.fr
 #### 2 - Set up your working environment
 1. Go to your project directory
 ```bash
-cd /shared/projects/ens_HTseq_2020/<your login>/
+cd /shared/projects/2020_eu_HTSdataAnalysis/<your login>/
 ```
 2. Create a directory that will contain all results of the upcoming analyses.
 ```bash
@@ -81,7 +81,7 @@ cd RNAseq_Practical
 ```bash
 pwd
 
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 ```
 
 #
@@ -118,7 +118,7 @@ mkdir 1-QualityControl
 Using the `tree` command, your directory should look like this :
 
 ```bash
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 │
 └───1-QualityControl
 ```
@@ -142,21 +142,21 @@ srun fastqc --help
 
 5. Run fastqc on each experiment files
 
-- /shared/projects/ens_HTseq_2020/RNAseq/Fastqc/O2rep2_SRR352263.fastq : **absolute path** to the first file
+- /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz : **absolute path** to the first file
 - -o: creates all output files in the specified output directory. '.' means current directory.
 
 ```bash
 # O2 condition reads
-srun fastqc /shared/projects/ens_HTseq_2020/RNAseq/Fastqc/O2rep2_SRR352263.fastq -o .
+srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz -o .
 ```
 ```bash
 # noO2 condition reads
-srun fastqc /shared/projects/ens_HTseq_2020/RNAseq/Fastqc/noO2rep2_SRR352263.fastq -o .
+srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/noO2rep2_SRR352263.fastq.gz -o .
 ```
 At this point you should see the two new files in your directory using the `tree` command
 
 ```bash
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 │
 └───1-QualityControl
 	│
@@ -175,11 +175,11 @@ mkdir ~/Desktop/RNAseq_Practical/
 cd ~/Desktop/RNAseq_Practical/
 
 ## Download the first file
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
+scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
 # Enter your password
 
 ## Download the second
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
+scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
 # Enter your password
 ```
 7. Open a new shell and Unzip the files in your personal computer with `uzip`
@@ -218,7 +218,7 @@ mkdir 2-Mapping
 Your directory should now look like this :
 
 ```bash
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 │
 └───1-QualityControl
 	│
@@ -243,27 +243,27 @@ module load bowtie/1.2.2
 4. Map the reads to the reference genome
 
 >- **-S** will output the result in SAM format
->- **/shared/projects/ens_HTseq_2020/RNAseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
->- **/shared/projects/ens_HTseq_2020/RNAseq/Fastqc/O2rep2_SRR352263.fastq** location of the input fastq
+>- **/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
+>- **/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
 >- **2>** will print some statistic about the aligment (#of reads mapped, etc...)
 >- **>** redirects the mapping output into a .sam file
 
 ```bash
 # Map the aerobic condition reads
-srun bowtie -S /shared/projects/ens_HTseq_2020/RNAseq/bowtie_indexes/C_parapsilosis \
-	/shared/projects/ens_HTseq_2020/RNAseq/Fastqc/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
+srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Bowtie_indexes/C_parapsilosis \
+	/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
 ```
 
 ```bash
 # Map the hypoxic condition reads
-srun bowtie -S /shared/projects/ens_HTseq_2020/RNAseq/bowtie_indexes/C_parapsilosis \
- 	O2rep2_SRR352263.fastq 2> noO2rep2_SRR352263_bowtie_mapping.out > noO2rep2_SRR352263_bowtie_mapping.sam
+srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/bowtie_indexes/C_parapsilosis \
+ 	O2rep2_SRR352263.fastq.gz 2> noO2rep2_SRR352263_bowtie_mapping.out > noO2rep2_SRR352263_bowtie_mapping.sam
 ```
 
 Your directory should now look like this :
 
 ```bash
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 │
 └───1-QualityControl
 	│
@@ -381,7 +381,7 @@ mkdir 3-ORF_reads_count
 Your directory should now look like this :
 
 ```bash
-/shared/projects/ens_HTseq_2020/<your login>/RNAseq_Practical
+/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq_Practical
 │
 └───1-QualityControl
 	│
@@ -416,14 +416,14 @@ module load bedtools/2.27.1
 
 ```bash
 srun bedtools multicov -bams ../O2rep2_SRR352263_bowtie_sorted.bam \
--bed /shared/projects/ens_HTseq_2020/RNAseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
+-bed /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
 
 srun sed 's/^.*ID=//' O2rep2_SRR352263_gene_counts.gff > O2rep2_SRR352263_gene_counts.tab
 ```
 
 ```bash
 srun bedtools multicov -bams ../noO2rep2_SRR352263_bowtie_sorted.bam \
--bed /shared/projects/ens_HTseq_2020/RNAseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
+-bed /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
 
 srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_gene_counts.tab
 ```
@@ -435,7 +435,7 @@ module rm samtools/1.9 bowtie/1.2.2 bedtools/2.27.1
 ```
 
 #### Statistical analysis using DEseq2 R package.
-In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/ens_HTseq_2020/RNAseq/R/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
+In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
 
 1. Connect to Rstudio serveur of the IFB
 
@@ -458,8 +458,8 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/ens_HTseq_2020/RNAseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
-Save it into your personal folder using *File > Save As* and the path ***/shared/projects/ens_HTseq_2020/your login/RNAseq_Practical/DEseq2.Rmd***
+In *File > Open File...* enter the path ***/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
+Save it into your personal folder using *File > Save As* and the path ***/shared/projects/2020_eu_HTSdataAnalysis/your login/RNAseq_Practical/DEseq2.Rmd***
 
 3. Conduct statistical analysis in R
 
