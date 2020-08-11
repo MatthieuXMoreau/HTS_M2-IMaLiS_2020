@@ -477,12 +477,29 @@ At this point you can use the notebook to conduct the statistical analysis
 
 #
 
-1. To have information on your current job :
+These are some usefull command lines you may need to work on the cluster
+
+You can find more detailed information and video tutorial here [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) 
+
+1. How to download/upload your data from the cluster :
+
+```bash
+# To download file/files from the cluster to your current directory
+scp  <your login>@core.cluster.france-bioinformatique.fr:/<absolute path to your file> 
+
+# To download a folder from the cluster to your current directory
+ scp -r  <your login>@core.cluster.france-bioinformatique.fr:/<absolute path to your folder>
+ 
+# To upload a file to the cluster
+ scp <path to your local folder> <your login>@core.cluster.france-bioinformatique.fr:/<absolute path to the target folder>
+```
+
+2. To have information on your current job :
 
 ```bash
 squeue -u <your login>
 ```
-2. To list all your running/pending jobs :
+3. To list all your running/pending jobs :
 
 ```bash
 squeue -u <your login> -t RUNNING
@@ -490,19 +507,19 @@ squeue -u <your login> -t RUNNING
 squeue -u <your login> -t PENDING
 ```
 
-3. To cancel/stop a job :
+4. To cancel/stop a job :
 
 ```bash
 scancel <jobid>
 ```
 
-4. To cancel all yout jobs:
+5. To cancel all yout jobs:
 
 ```bash
 scancel -u <your login>
 ```
 
-5. To cancel all your pending jobs :
+6. To cancel all your pending jobs :
 
 ```bash
 scancel -t PENDING -u <your login>
