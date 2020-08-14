@@ -1,128 +1,239 @@
 ---
 title: "DE analysis using DEseq2"
-output: html_notebook
+author: "Matthieu Moreau"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  html_document: 
+    toc: yes
+    number_sections: true
+    toc_float: true
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
-To execute a chunk, click the *Run* button within the chunk or place your cursor inside it and press *Ctrl+Shift+Enter*. 
-
-```{r}
 # library loading
+```{r message=FALSE, warning=FALSE}
 library(DESeq2)
+
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+
+#Set ggplot theme as classic
+theme_set(theme_classic())
 ```
 
-```{r}
-# data reading
-countData = read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/count_data_diffAnalysis.txt", row.names = 1, header = TRUE)
+# Prepare the data for the analysis
 
-# general information
-row.names(countData)
+## Load the raw count matrix
+
+```{r}
+countData <- read.table("count_data_diffAnalysis.txt", row.names = 1, header = TRUE)
+```
+
+Visualisae some general informations : 
+  * The count matix stores for each samples (in columns) the number reads mapped to each
+  ORF (in rows) counted with **bedtools multicov**
+  
+
+```{r}
+# Print the first 10 row names (ORF)
+row.names(countData)[1:10]
+```
+
+> You can see that the first 4 samples correspond to the 4 **Biological Replicates** of
+> the anoxic conditions while there are 6 replicates for the normoxic condition
+
+```{r}
+# Print samples name
+colnames(countData)
+```
+
+
+```{r}
 head(countData)
 ```
 
-```{r}
-# Loading metadata for the experiment
-# N = Normoxic condition (with O2)
-# H = Hypoxic condition  (without O2)
-colData = read.table("/shared/projects/ens_HTseq_2020/RNAseq/R/design.txt", row.names = 1, header = TRUE)
+## Load metadata for the experimentthe (experimental design matrix)
 
+The **Design** matrix store the information about the biological condition associated to each samples :
+  * N = Normoxic condition (with O2)
+  * H = Hypoxic condition  (without O2)
+
+```{r}
+colData <- read.table("design.txt", row.names = 1, header = TRUE)
+
+colData
 ```
 
+
+## Initiate the DEseq2 specific object **DESeqDataSet**
+
+DEseq2 use a specific format to store all the data required to perform the DE analysis. All the results of our analysis will also be stored in specific slots of this object.
+
 ```{r}
-# DESeqDataSet object creation
-dds = DESeqDataSetFromMatrix(countData = countData, colData = colData, design = ~condition)
+dds <- DESeqDataSetFromMatrix(countData = countData,
+                             colData = colData,
+                             design = ~condition)
+```
+
+Using head, you can obtain information about the structure of the object to know where informations are stored
+
+```{r}
 head(dds)
-
 ```
 
+For instance, the count matrix can be access using : **counts()**
+
 ```{r}
-# normalization of counts
-# calculation of sizeFactors
-dds = estimateSizeFactors(dds)
+head(counts(dds))
+```
+
+
+# Preprocessing
+
+## Normalization
+
+Normalization is a necessary step to correct for different sequencing depth between samples. As you can see their is significant differences between total number of reads obtained for each samples.
+
+```{r}
+# bar plots
+barplot(colSums(counts(dds)), main = "Total read counts per samples")
+```
+
+### Calculate the size factor
+
+Calculate the size factor for each sample, which will be use as a correcting factor for sequencing depth (by dividing the raw counts by the size factors)
+
+```{r}
+dds <- estimateSizeFactors(dds)
 sizeFactors(dds)
 ```
 
 ```{r}
-# bar plots
-barplot(colSums(counts(dds)))
+boxplot(log2(counts(dds)+1),
+        main = "Per sample distribution of the \n log2 transformed expression value before normalization")
+
+boxplot(log2(counts(dds,normalized=TRUE)+1),
+        main = "Per sample distribution of the \n log2 transformed expression value after normalization")
 ```
 
-```{r}
-# boxplots
-boxplot(log2(counts(dds)+1))
-boxplot(log2(counts(dds,normalized=TRUE)+1))
-```
+## Variance/Dispersion estimation
 
 ```{r}
-# variance estimations
-dds = estimateDispersions(dds)
+dds <- estimateDispersions(dds)
 plotDispEsts(dds)
 ```
 
+# Differential expression analysis
+
+Perform the negative binomial wald test inplemented by DEseq2
+
 ```{r}
-# differential analysis
-dds = nbinomWaldTest(dds)
-res = results(dds)
-mcols(res,use.names=TRUE)
-resultsNames(dds)
+dds <- nbinomWaldTest(dds)
+
+# Generate summary of testing. 
+summary(results(dds))
+```
+
+Retreive the result table 
+
+```{r}
+res <- results(dds)
+head(res)
+```
+
+Using **mcols()** you can obtain a description of the result information stored in column.
+ * Take a look at the *log2FoldChange*. **What is the directionality of the calculated log2FC ?
+
+```{r}
+mcols(res, use.names=TRUE)
+```
+
+Convert res into data frame
+
+```{r}
 res <- as.data.frame(res)
 ```
 
 
-```{r}
-# diagnostic plots
-attach(res)
+# DE test results analysis
 
-#volcano plot
-plot(log2FoldChange, -log10(padj),pch =21, main = "Normoxic VS Hypoxic")
-abline(v = c(-2,2), col ="red")
-abline(h = 1.3, col= "red", lty =2)
-points(log2FoldChange[log2FoldChange >2 & padj < 0.05], -1 * log10(padj[log2FoldChange >2  & padj < 0.05]), col ="green")
-points(log2FoldChange[log2FoldChange <(-2) & padj < 0.05], -1 * log10(padj[log2FoldChange <(-2)  & padj < 0.05]), col ="red")
-legend("topright", c("107 genes with LogFc  > 2 in Hypoxic VS normoxic", " 85 genes with LogFc  > 2 in normoxic VS hypoxic"),pch = 21, col = c("red", "green"), bty ="n", cex =.9)
+## Diagnostic plots
+
+### Volcano plot
+
+```{r}
+#Set a new data frame which will store all variable needed to generate the volcano plot
+Vplot.data <- data.frame(gene = row.names(res),
+                         padj = res$padj, 
+                         Log2FC = res$log2FoldChange)
+
+# Remove any rows that have NA 
+Vplot.data <- na.omit(Vplot.data)
+
+# Mark the genes which are significantly upreagalted or down regulated by an absolute logFC > 2
+
+Vplot.data <- mutate(Vplot.data, color = case_when(Vplot.data$Log2FC > 2 & Vplot.data$padj < 0.05 ~ "LogFc > 2 in normoxic VS hypoxic",
+                                                   Vplot.data$Log2FC < -2 & Vplot.data$padj < 0.05 ~ "LogFc > 2 in Hypoxic VS normoxic",
+                                                   Vplot.data$padj > 0.05 | abs(Vplot.data$Log2FC) < 2 ~ "NS"))
 ```
 
 ```{r}
-FoldFc_sup2 <- res[res[,2] < (-2) & res[,5] <0.05,]
+# Build the ggplot. Note that we -log10() transform the padj so that gene with the lowest padj will have the higest y axis value
+ggplot(Vplot.data, aes(x = Log2FC, y = -log10(padj), color = color)) + # Set the default plot
+  geom_point(size = 2.5, alpha = 0.8, na.rm = T) + # Set the dot size
+  scale_color_manual(name = "Expression change",
+                     values = c("LogFc > 2 in normoxic VS hypoxic" = "#008B00",
+                                "LogFc > 2 in Hypoxic VS normoxic" = "#CD4F39",
+                                "NS" = "darkgray")) +
+  geom_hline(yintercept = 1.3, colour = "red") + #  p-adj value cutoff
+  geom_vline(xintercept = c(-2,2), colour = "red") + # Log2FC value cutoff
+  xlab(expression(log[2]("Fold change"))) + ylab(expression(-log[10]("adjusted p-value"))) +
+  ggtitle(label = "Normoxic VS Hypoxic")
+  
+```
+
+Export results for genes with log2FoldChange > 2 and padj < 0.05
+
+```{r}
+FoldFc_sup2 <- res[res$log2FoldChange > 2 & res$padj <0.05,]
 nrow(FoldFc_sup2)
-write.table(FoldFc_sup2, row.names = T, quote = F, sep = "\t", file = "../results/RNAseq_FoldFc_sup2.txt")
-
+#write.table(FoldFc_sup2, row.names = T, quote = F, sep = "\t", file = "../results/RNAseq_FoldFc_sup2.txt")
 ```
 
+Export results for genes with log2FoldChange < -2 and padj < 0.05
+
 ```{r}
-FoldFc_inf2 <- res[res[,2] <(-2),]
+FoldFc_inf2 <- res[res$log2FoldChange <(-2) & res$padj <0.05,]
 nrow(FoldFc_inf2)
 ```
 
-```{r}
-# MA plot
-plotMA(res)
-```
+
+### MA plot
 
 ```{r}
-# Histogram of the p values
-hist(res$pvalue,breaks=20,col="grey")
+plotMA(results(dds))
+```
+
+### Inspect the histogram of the p values
+
+```{r}
+hist(res$pvalue,breaks=100,col="grey")
+```
+
+### PCA of samples
+
+```{r}
 # PCA plots
 vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
-p = plotPCA(vsd)
-p = update(p, panel = function(x, y, ...) {lattice::panel.xyplot(x, y, ...);lattice::ltext(x=x, y=y, labels=rownames(colData(vsd)), pos=1, offset=1, cex=0.8)})
-print(p)
-```
-
-```{r}
-# genes are sorted according to adjusted p-values
-res = res[order(res$padj),]
-dim(res)
-res[rownames(res) == "CPAR2_212440",]
-
-write.table(res, "res.txt", row.name=T, quote=F, sep='\t')
+plotPCA(vsd, ntop = 500) + 
+  ggtitle(label = "Principal Component Analysis (PCA)", subtitle = "Top 500 most variable genes")
 ```
 
 # Reproductibility
 ```{r}
 #date
-date()
+format(Sys.time(), "%d %B, %Y, %H,%M")
 
 #Packages used
 sessionInfo()
