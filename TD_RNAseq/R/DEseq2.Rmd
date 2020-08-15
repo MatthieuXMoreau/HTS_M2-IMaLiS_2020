@@ -1,6 +1,9 @@
 ---
 title: "DE analysis using DEseq2"
-author: "Matthieu Moreau"
+author:
+ - Gaelle Lelandais, 
+ - Stephane Le Crom, stephane.le_crom@sorbonne-universite.fr
+ - Matthieu Moreau, matthieu.moreau@inserm.fr
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   html_document: 
@@ -31,8 +34,7 @@ countData <- read.table("count_data_diffAnalysis.txt", row.names = 1, header = T
 ```
 
 Visualisae some general informations : 
-  * The count matix stores for each samples (in columns) the number reads mapped to each
-  ORF (in rows) counted with **bedtools multicov**
+The count matix stores for each samples (in columns) the number reads mapped to each ORF (in rows) counted with **bedtools multicov**
   
 
 ```{r}
@@ -40,8 +42,7 @@ Visualisae some general informations :
 row.names(countData)[1:10]
 ```
 
-> You can see that the first 4 samples correspond to the 4 **Biological Replicates** of
-> the anoxic conditions while there are 6 replicates for the normoxic condition
+You can see that the first 4 samples correspond to the 4 **Biological Replicates** of the anoxic conditions while there are 6 replicates for the normoxic condition
 
 ```{r}
 # Print samples name
@@ -53,11 +54,11 @@ colnames(countData)
 head(countData)
 ```
 
-## Load metadata for the experimentthe (experimental design matrix)
+## Load metadata of the experiment (design matrix)
 
-The **Design** matrix store the information about the biological condition associated to each samples :
-  * N = Normoxic condition (with O2)
-  * H = Hypoxic condition  (without O2)
+The **Design** matrix store the information about the biological condition associated to each samples :  
+N = Normoxic condition (with O2)  
+H = Hypoxic condition  (without O2)
 
 ```{r}
 colData <- read.table("design.txt", row.names = 1, header = TRUE)
@@ -117,6 +118,23 @@ boxplot(log2(counts(dds,normalized=TRUE)+1),
         main = "Per sample distribution of the \n log2 transformed expression value after normalization")
 ```
 
+## PCA of samples
+
+```{r}
+vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
+```
+
+
+```{r}
+# PCA plots
+plotPCA(vsd, ntop = 500) + 
+  ggtitle(label = "Principal Component Analysis (PCA)", subtitle = "Top 500 most variable  genes")
+```
+
+
+
+# Differential expression analysis
+
 ## Variance/Dispersion estimation
 
 ```{r}
@@ -124,9 +142,7 @@ dds <- estimateDispersions(dds)
 plotDispEsts(dds)
 ```
 
-# Differential expression analysis
-
-Perform the negative binomial wald test inplemented by DEseq2
+## Perform the negative binomial wald test inplemented by DEseq2
 
 ```{r}
 dds <- nbinomWaldTest(dds)
@@ -142,8 +158,8 @@ res <- results(dds)
 head(res)
 ```
 
-Using **mcols()** you can obtain a description of the result information stored in column.
- * Take a look at the *log2FoldChange*. **What is the directionality of the calculated log2FC ?
+Using **mcols()** you can obtain a description of the result information stored in column.  
+Take a look at the *log2FoldChange*. **What is the directionality of the calculated log2FC ?
 
 ```{r}
 mcols(res, use.names=TRUE)
@@ -159,6 +175,14 @@ res <- as.data.frame(res)
 # DE test results analysis
 
 ## Diagnostic plots
+
+### Inspect the histogram of the p values
+
+```{r warning=FALSE}
+ggplot(res, aes(x = pvalue)) + geom_histogram(bins = 50)
+```
+
+## Analysis of DE genes
 
 ### Volcano plot
 
@@ -206,6 +230,7 @@ Export results for genes with log2FoldChange < -2 and padj < 0.05
 ```{r}
 FoldFc_inf2 <- res[res$log2FoldChange <(-2) & res$padj <0.05,]
 nrow(FoldFc_inf2)
+#write.table(FoldFc_inf2, row.names = T, quote = F, sep = "\t", file = "../results/RNAseq_FoldFc_inf2.txt")
 ```
 
 
@@ -215,20 +240,6 @@ nrow(FoldFc_inf2)
 plotMA(results(dds))
 ```
 
-### Inspect the histogram of the p values
-
-```{r}
-hist(res$pvalue,breaks=100,col="grey")
-```
-
-### PCA of samples
-
-```{r}
-# PCA plots
-vsd <- varianceStabilizingTransformation(dds, blind=TRUE)
-plotPCA(vsd, ntop = 500) + 
-  ggtitle(label = "Principal Component Analysis (PCA)", subtitle = "Top 500 most variable genes")
-```
 
 # Reproductibility
 ```{r}
