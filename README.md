@@ -2,6 +2,6 @@
 
 ## Practical Transcriptomic analysis
 
-TD Microarrays
+[TD Microarrays](./TD_Microarrays/Microarrays.Rmd)
 
 [TD RNAseq](./TD_RNAseq/TD_RNAseq.md)
