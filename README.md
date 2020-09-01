@@ -1,6 +1,10 @@
 # HTSdataAnalysis_M2-IMaLiS_2020
 
-## Practical Transcriptomic analysis
+- [1. Tractical content](#content)
+- [2. Connect to the IFB server](#logging)
+- [3. Connect to the IFB Rstudio server](#rstudio)
+
+## Practical Transcriptomic analysis <a name="content"></a>
 
 [TD Microarrays](./TD_Microarrays/README.md)
 
@@ -31,3 +35,21 @@ You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io
 ```bash
 ssh <login>@core.cluster.france-bioinformatique.fr
 ```
+
+## Connect to the IFB Rstudio server <a name="rstudio"></a>
+
+In a web browser, connect to https://rstudio.cluster.france-bioinformatique.fr/auth-sign-in and log in using your user name and password (same as for ssh connection)
+
+<p align="center">
+
+<img src="./TD_RNAseq/images/Rstudio.png" width="30%">
+
+</p>
+
+You will reached the familiar Rstudio environment:
+
+<p align="center">
+
+<img src="./TD_RNAseq/images/RstudioScreen.png" width="50%">
+
+</p>
