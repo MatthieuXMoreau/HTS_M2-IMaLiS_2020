@@ -21,8 +21,8 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/2020_eu_HTSdataAnalysis/Microarrays/Microarrays.Rmd*** to open the [notebook](./Microarrays.Rmd) containing all the code needed for the practical.  
-Save it into your personal folder using *File > Save As* and the path ***/shared/projects/2020_eu_HTSdataAnalysis/your login/Microarrays/Microarrays.Rmd***
+In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/microarrays/Microarrays.Rmd*** to open the [notebook](./Microarrays.Rmd) containing all the code needed for the practical.  
+Save it into your personal folder using *File > Save As* 
 
 3. Conduct statistical analysis in R
 
