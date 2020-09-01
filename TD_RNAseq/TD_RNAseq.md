@@ -22,9 +22,6 @@ During this practical session, you will learn :
 
   * To conduct an analysis of RNAseq raw fastq files. You will first perform **quality control** of the sequencing file before proceding to the **mapping** of the reads on the reference transcriptome.
 
-For this part of the practical, you will work remotely on the [IFB-core cluster](https://www.france-bioinformatique.fr/le-cluster-ifb-core/) located in **Orsay (IDRIS)**. Because it it a shared infrastructure you will have to pay attention to the command you use to start a job. **They all must start with *srun***.  
-You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) for more detail about logging, data management, job submission. 
-
   * To perform statistical analysis of the gene expression matrices in order to identify differentialy expressed genes between two conditions
  
 
@@ -38,6 +35,9 @@ Data used in these practical were collected from the following publication:
 #
 
 ## Connect to the server <a name="logging"></a>
+
+For this part of the practical, you will work remotely on the [IFB-core cluster](https://www.france-bioinformatique.fr/le-cluster-ifb-core/) located in **Orsay (IDRIS)**. Because it it a shared infrastructure you will have to pay attention to the command you use to start a job. **They all must start with *srun***.  
+You can refer to [IFB Core Cluster Documentation](https://ifb-elixirfr.gitlab.io/cluster/doc/) for more detail about logging, data management, job submission. 
 
 #
 
@@ -63,7 +63,7 @@ ssh <login>@core.cluster.france-bioinformatique.fr
 ```
 
 #### 2 - Set up your working environment
-1. Go to your project directory
+1. Go to your home directory
 ```bash
 cd /shared/projects/2020_eu_HTSdataAnalysis/<your login>/
 ```
@@ -92,9 +92,9 @@ pwd
 
 **Fastq** files are raw results from RNA-Seq experiments. These files comprise all the **sequences** (or reads) obtained with the sequencer machine (Illumina technology here), together with **base quality scores** (PHRED scores).
 
-Two different files will be analyzed in this practical :
+Two different files will be analyzed in this practical (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information) :
 - ***O2rep2_SRR352263.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under normoxic condition.
-- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under hypoxic condition (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information).
+- ***noO2rep3_SRR352271.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under hypoxic condition 
 
 In a first step, quality controls will be perform on each FASTQ files in order to evaluate the quality of the sequences and identify potential problems that could impact the following analyses. Dedicated JAVA software will be used : [**FastQC 0.11.8**](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) . Note that other software exists.
 
@@ -174,21 +174,11 @@ mkdir ~/Desktop/RNAseq/
 ## Go to the location on your computer, where you want to put the data, for example:
 cd ~/Desktop/RNAseq/
 
-## Download the first file
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
+## Download html report files
+scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/*.html .
 # Enter your password
 
-## Download the second
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/O2rep2_SRR352263.fastqc.zip .
-# Enter your password
-```
-7. Open a new shell and Unzip the files in your personal computer with `uzip`
-
-```bash
-unzip *.zip
-```
-
-8. Open the *.html* report with firefox
+7. Open the *.html* report with ypur favorite browser
 
 
 #
@@ -241,21 +231,21 @@ module load bowtie/1.2.2
 4. Map the reads to the reference genome
 
 >- **-S** will output the result in SAM format
->- **/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
->- **/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
+>- **/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
+>- **/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
 >- **2>** will print some statistic about the aligment (#of reads mapped, etc...)
 >- **>** redirects the mapping output into a .sam file
 
 ```bash
 # Map the aerobic condition reads
-srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Bowtie_indexes/C_parapsilosis \
-	/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
+srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis \
+	/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
 ```
 
 ```bash
 # Map the hypoxic condition reads
-srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/bowtie_indexes/C_parapsilosis \
- 	O2rep2_SRR352263.fastq.gz 2> noO2rep2_SRR352263_bowtie_mapping.out > noO2rep2_SRR352263_bowtie_mapping.sam
+srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis \
+ 	/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/noO2rep3_SRR352271.fastq 2> noO2rep3_SRR352271_bowtie_mapping.out > noO2rep3_SRR352271_bowtie_mapping.sam
 ```
 
 Your directory should now look like this :
@@ -267,17 +257,17 @@ Your directory should now look like this :
 	│
 	└─── O2rep2_SRR352263.fastqc.zip
 	│
-	└─── noO2rep2_SRR352263.fastqc.zip
+	└─── noO2rep3_SRR352271.fastqc.zip
 │
 └─── 2-Mapping
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.sam
+	└─── O2rep2_SRR352263_bowtie_mapping.sam
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.out
+	└─── O2rep2_SRR352263_bowtie_mapping.out
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.sam
+	└─── noO2rep3_SRR352271_bowtie_mapping.sam
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.out
+	└─── noO2rep3_SRR352271_bowtie_mapping.out
 ```
 
 #
@@ -305,7 +295,7 @@ module load samtools/1.9
 srun samtools sort O2rep2_SRR352263_bowtie_mapping.sam | srun samtools view -b  > O2rep2_SRR352263_bowtie_sorted.bam
 
 # Sort and convert noO2 condition
-srun samtools sort noO2rep2_SRR352263_bowtie_mapping.sam | srun samtools view -b  > noO2rep2_SRR352263_bowtie_sorted.bam
+srun samtools sort noO2rep3_SRR352271_bowtie_mapping.sam | srun samtools view -b  > noO2rep3_SRR352271_bowtie_sorted.bam
 ```
 2. Create an index of the tow bam files
 
@@ -316,7 +306,7 @@ srun samtools sort noO2rep2_SRR352263_bowtie_mapping.sam | srun samtools view -b
 srun samtools index O2rep2_SRR352263_bowtie_sorted.bam
 
 #Index the noO2 condition
-srun samtools index noO2rep2_SRR352263_bowtie_sorted.bam
+srun samtools index noO2rep3_SRR352271_bowtie_sorted.bam
 ```
 3. Download the resulting bam files on your computer
 
@@ -327,9 +317,9 @@ scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_e
 
 scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam.bai .
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep2_SRR352263_bowtie_sorted.bam .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam .
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep2_SRR352263_bowtie_sorted.bam.bai .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam.bai .
 ```
 You will also need the reference genome sequence and gene annotation files
 
@@ -407,13 +397,13 @@ Your directory should now look like this :
 │
 └─── 2-Mapping
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.sam
+	└─── O2rep2_SRR352263_bowtie_mapping.sam
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.out
+	└─── O2rep2_SRR352263_bowtie_mapping.out
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.sam
+	└─── noO2rep3_SRR352271_bowtie_mapping.sam
 	│
-	└─── noO2rep2_SRR352263_bowtie_mapping.out
+	└─── noO2rep3_SRR352271_bowtie_mapping.out
 │
 └─── 3-ORF_reads_count
 ```
