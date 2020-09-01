@@ -455,9 +455,9 @@ module unload samtools/1.9 bowtie/1.2.2 bedtools/2.27.1
 ```
 
 ### Statistical analysis using DEseq2 R package
-In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
+In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
 
-#### TO DO : Search for differentially expressed genes using DESeq R package. How many genes are selected with different p-value thresholds (5%, 1%, etc.) ? Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.
+#### TO DO : Search for differentially expressed genes using DESeq R package. How many genes are selected with different p-value thresholds (5%, 1%, etc.)? Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.
 
 1. Connect to Rstudio serveur of the IFB
 
