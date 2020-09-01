@@ -142,16 +142,16 @@ srun fastqc --help
 
 5. Run fastqc on each experiment files
 
-- /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz : **absolute path** to the first file
+- /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq.gz : **absolute path** to the first file
 - -o: creates all output files in the specified output directory. '.' means current directory.
 
 ```bash
 # O2 condition reads
-srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/O2rep2_SRR352263.fastq.gz -o .
+srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq -o .
 ```
 ```bash
 # noO2 condition reads
-srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/Fastqc/noO2rep2_SRR352263.fastq.gz -o .
+srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/noO2rep2_SRR352263.fastq -o .
 ```
 At this point you should see the two new files in your directory using the `tree` command
 
@@ -159,12 +159,12 @@ At this point you should see the two new files in your directory using the `tree
 /shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
-	│
+	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	│
-	└───noO2rep2_SRR352263.fastqc.zip
+	└─── noO2rep2_SRR352263.fastqc.html
+	└─── noO2rep2_SRR352263.fastqc.zip
 ```
-6. Download the HTML file SRR576933_fastqc.html on your local machine
+6. Download the HTML file reports on your local machine
 
 ```bash
 ### OPEN A NEW TERMINAL
@@ -209,11 +209,10 @@ Your directory should now look like this :
 /shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
-	│
+	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	│
-	└───noO2rep2_SRR352263.fastqc.zip
-│
+	└─── noO2rep2_SRR352263.fastqc.html
+	└─── noO2rep2_SRR352263.fastqc.zip
 └─── 2-Mapping
 ```
 
@@ -254,19 +253,14 @@ Your directory should now look like this :
 /shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
 │
 └───1-QualityControl
-	│
+	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	│
-	└─── noO2rep3_SRR352271.fastqc.zip
-│
+	└─── noO2rep2_SRR352263.fastqc.html
+	└─── noO2rep2_SRR352263.fastqc.zip
 └─── 2-Mapping
-	│
 	└─── O2rep2_SRR352263_bowtie_mapping.sam
-	│
 	└─── O2rep2_SRR352263_bowtie_mapping.out
-	│
 	└─── noO2rep3_SRR352271_bowtie_mapping.sam
-	│
 	└─── noO2rep3_SRR352271_bowtie_mapping.out
 ```
 
