@@ -1,4 +1,4 @@
-# Functional genomic data analysis : transcriptomics | Practical
+# Functional genomic data analysis: transcriptomics
 
 - [1. Practical content](#content)
 - [2. Connect to the IFB server](#logging)
