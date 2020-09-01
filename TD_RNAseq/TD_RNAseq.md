@@ -65,7 +65,7 @@ ssh <login>@core.cluster.france-bioinformatique.fr
 #### 2 - Set up your working environment
 1. Go to your home directory
 ```bash
-cd /shared/projects/2020_eu_HTSdataAnalysis/<your login>/
+cd 
 ```
 2. Create a directory that will contain all results of the upcoming analyses.
 ```bash
@@ -81,7 +81,7 @@ cd RNAseq
 ```bash
 pwd
 
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 ```
 
 #
@@ -116,7 +116,7 @@ mkdir 1-QualityControl
 Using the `tree` command, your directory should look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 │
 └───1-QualityControl
 ```
@@ -140,21 +140,21 @@ srun fastqc --help
 
 5. Run fastqc on each experiment files
 
-- /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq : **absolute path** to the first file
+- /shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq : **absolute path** to the first file
 - -o: creates all output files in the specified output directory. '.' means current directory.
 
 ```bash
 # O2 condition reads
-srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq -o .
+srun fastqc /shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq -o .
 ```
 ```bash
 # noO2 condition reads
-srun fastqc /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/noO2rep2_SRR352263.fastq -o .
+srun fastqc /shared/projects/ens_hts_2020/rnaseq/noO2rep2_SRR352263.fastq -o .
 ```
 At this point you should see the two new files in your directory using the `tree` command
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 │
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
@@ -173,8 +173,8 @@ mkdir ~/Desktop/RNAseq/
 cd ~/Desktop/RNAseq/
 
 ## Download html report files
-scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/*.html .
-# Enter your password
+scp <login>@core.cluster.france-bioinformatique.fr:~/RNAseq/1-QualityControl/*.html .
+# Enter your password 
 ```
 
 7. Open the *.html* report with your favorite browser
@@ -205,7 +205,7 @@ mkdir 2-Mapping
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 │
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
@@ -229,27 +229,27 @@ module load bowtie/1.2.2
 4. Map the reads to the reference genome
 
 >- **-S** will output the result in SAM format
->- **/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
->- **/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
+>- **/shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
+>- **/shared/projects/ens_hts_2020/rnaseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
 >- **2>** will print some statistic about the aligment (#of reads mapped, etc...)
 >- **>** redirects the mapping output into a .sam file
 
 ```bash
 # Map the aerobic condition reads
-srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis \
-	/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
+srun bowtie -S /shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis \
+	/shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
 ```
 
 ```bash
 # Map the hypoxic condition reads
-srun bowtie -S /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/bowtie_indexes/C_parapsilosis \
- 	/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/noO2rep3_SRR352271.fastq 2> noO2rep3_SRR352271_bowtie_mapping.out > noO2rep3_SRR352271_bowtie_mapping.sam
+srun bowtie -S /shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis \
+ 	/shared/projects/ens_hts_2020/rnaseq/noO2rep3_SRR352271.fastq 2> noO2rep3_SRR352271_bowtie_mapping.out > noO2rep3_SRR352271_bowtie_mapping.sam
 ```
 
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 │
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
@@ -308,16 +308,16 @@ srun samtools index noO2rep3_SRR352271_bowtie_sorted.bam
 ```bash
 # To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/*.bam* .
+scp  <your login>@core.cluster.france-bioinformatique.fr:~/RNAseq/2-Mapping/*.bam* .
 ```
 You will also need the reference genome sequence and gene annotation files
 
 ```bash
 # To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_CGD.fasta .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_CGD.fasta .
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff .
 ```
 
 4. Visualize mapping results with IGV
@@ -378,7 +378,7 @@ mkdir 3-ORF_reads_count
 Your directory should now look like this :
 
 ```bash
-/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
+/shared/home/<your login>/RNAseq
 ├── 1-QualityControl
 │   ├── noO2rep3_SRR352271_fastqc.html
 │   ├── noO2rep3_SRR352271_fastqc.zip
@@ -410,14 +410,14 @@ module load bedtools/2.27.1
 
 ```bash
 srun bedtools multicov -bams ../2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam \
--bed /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
+-bed /shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
 
 srun sed 's/^.*ID=//' O2rep2_SRR352263_gene_counts.gff > O2rep2_SRR352263_gene_counts.tab
 ```
 
 ```bash
 srun bedtools multicov -bams ../2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam \
--bed /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
+-bed /shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
 
 srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_gene_counts.tab
 ```
@@ -480,8 +480,8 @@ You will reached the familiar Rstudio environment :
 
 2. Save the working notebook in your personal environment
 
-In *File > Open File...* enter the path ***/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
-Save it into your personal folder using *File > Save As* and the path ***/shared/projects/2020_eu_HTSdataAnalysis/your login/RNAseq/DEseq2.Rmd***
+In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/rnaseq/R/DEseq2.Rmd*** to open the [notebook](./R/DEseq2.Rmd) containing all the code needed for the practical.  
+Save it into your personal folder using *File > Save As* 
 
 3. Conduct statistical analysis in R
 
