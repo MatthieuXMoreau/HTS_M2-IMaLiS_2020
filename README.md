@@ -24,7 +24,7 @@
 
 </p>
 
-  * On MacOS and Linux
+  * On MacOS and Linux using a terminal window
 ```bash
 ssh <login>@core.cluster.france-bioinformatique.fr
 ```
