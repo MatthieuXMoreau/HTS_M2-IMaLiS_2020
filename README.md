@@ -1,4 +1,4 @@
-# HTSdataAnalysis_M2-IMaLiS_2020
+# Bio-M2_E02 | Functional genomic data analysis : transcriptomics | Practical
 
 - [1. Practical content](#content)
 - [2. Connect to the IFB server](#logging)
