@@ -1,6 +1,6 @@
 # HTSdataAnalysis_M2-IMaLiS_2020
 
-- [1. Tractical content](#content)
+- [1. Practical content](#content)
 - [2. Connect to the IFB server](#logging)
 - [3. Connect to the IFB Rstudio server](#rstudio)
 
