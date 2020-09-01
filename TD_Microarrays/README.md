@@ -25,5 +25,3 @@ You will reached the familiar Rstudio environment :
    * Save it into your personal folder using *File > Save As* 
 
 3. Using your notebook, follow the [online tutorial](https://matthieumoreau06.github.io/Microarrays_hts_2020/) to conduct the analysis.
-
-At this point you can use the notebook to conduct the statistical analysis
