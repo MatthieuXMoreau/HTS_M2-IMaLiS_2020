@@ -106,9 +106,9 @@ FastQC is a quality control application for high throughput sequence data. It pr
 >   - Export of results to an **HTML based permanent report**
 >   - **Offline operation** to allow automated generation of reports without running the interactive application
 
-
+<div class="bg-blue-light mb-2">
 ####  TO DO: Use FASTQC to evaluate the quality of sequences in each FASTQ files. Using information from the [Fastqc help page](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help) as well as exemples of [good](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/good_sequence_short_fastqc.html)  and [bad](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/bad_sequence_fastqc.html) illumina data as references, compare results between the two FASTQ files. Is there any concern related to the following analyses?
-
+</div>
 
 1. Create a new directory to store the output of fastqc
 
