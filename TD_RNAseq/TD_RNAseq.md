@@ -360,6 +360,8 @@ Mapping results (“.sorted.bam” files) can now be imported (“File / Load fr
 
 #
 
+### Gene counts estimation
+
 To identify genes whose expression is different between hypoxic and normoxic conditions, we will **count and compare the number of reads mapped to each ORF**. A program available in the [**Bedtools 2.27.1**]( https://github.com/arq5x/bedtools2/blob/master/README.md) suite will be used.
 
 #### TO DO : Calculate for each ORF the number of reads that were aligned (normoxic and hypoxic conditions).
@@ -392,7 +394,6 @@ Your directory should now look like this :
 │   ├── O2rep2_SRR352263_bowtie_sorted.bam
 │   └── O2rep2_SRR352263_bowtie_sorted.bam.bai
 └── 3-ORF_reads_count
-
 ```
 
 2. Go to this directory
@@ -423,13 +424,37 @@ srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_ge
 
 Take a look at the product files to see how the count files are organised
 
+At the end of RNA-seq data analysis your directory should like this :
+
+```bash
+├── 1-QualityControl
+│   ├── noO2rep3_SRR352271_fastqc.html
+│   ├── noO2rep3_SRR352271_fastqc.zip
+│   ├── O2rep2_SRR352263_fastqc.html
+│   └── O2rep2_SRR352263_fastqc.zip
+├── 2-Mapping
+│   ├── noO2rep3_SRR352271_bowtie_mapping.out
+│   ├── noO2rep3_SRR352271_bowtie_mapping.sam
+│   ├── noO2rep3_SRR352271_bowtie_sorted.bam
+│   ├── noO2rep3_SRR352271_bowtie_sorted.bam.bai
+│   ├── O2rep2_SRR352263_bowtie_mapping.out
+│   ├── O2rep2_SRR352263_bowtie_mapping.sam
+│   ├── O2rep2_SRR352263_bowtie_sorted.bam
+│   └── O2rep2_SRR352263_bowtie_sorted.bam.bai
+└── 3-ORF_reads_count
+    ├── noO2rep3_SRR352271_gene_counts.gff
+    ├── noO2rep3_SRR352271_gene_counts.tab
+    ├── O2rep2_SRR352263_gene_counts.gff
+    └── O2rep2_SRR352263_gene_counts.tab
+```
+
 4. Unload the tools you used
 
 ```bash
 module unload samtools/1.9 bowtie/1.2.2 bedtools/2.27.1
 ```
 
-#### Statistical analysis using DEseq2 R package.
+### Statistical analysis using DEseq2 R package
 In their article (Guida et al., 2011), the authors repeated the experiment 6 times for normoxic condition (with O2) and 4 times for hypoxic conditions (without O2). Results obtained for all experiments are combined in the file “/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/R/count_data_diffAnalysis.txt”. This file will be used to search for differentially expressed genes using the **DESeq2** ([Love *et al*. 2014](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)) R package. The [DESeq package](http://www.bioconductor.org/packages/release/bioc/html/DESeq2.html) provides methods to test for differential expression by use of the negative binonial distribution and a shrinkage estimator for the distribution’s variance.
 
 #### TO DO : Search for differentially expressed genes using DESeq R package. How many genes are selected with different p-value thresholds (5%, 1%, etc.) ? Check your results with IGV and use GOtermFinder (see practical on microarrays) to analyse the function of the selected genes.
