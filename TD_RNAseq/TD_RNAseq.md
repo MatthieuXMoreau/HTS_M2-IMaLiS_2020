@@ -16,9 +16,9 @@
 
 #
 
-### Objectif of these practical :
+### Objective of this practical session:
 
-During this practical session, you will learn :
+During this practical session, you will learn:
 
   * To conduct an analysis of RNA-seq raw fastq files. You will first perform **quality control** of the sequencing file before proceding to the **mapping** of the reads on the reference transcriptome.
 
