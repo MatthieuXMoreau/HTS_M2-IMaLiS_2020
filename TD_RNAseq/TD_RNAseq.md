@@ -179,7 +179,7 @@ scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSd
 # Enter your password
 ```
 
-7. Open the *.html* report with ypur favorite browser
+7. Open the *.html* report with your favorite browser
 
 
 #
@@ -303,12 +303,12 @@ srun samtools index O2rep2_SRR352263_bowtie_sorted.bam
 #Index the noO2 condition
 srun samtools index noO2rep3_SRR352271_bowtie_sorted.bam
 ```
-3. Download the resulting bam files on your computer
+3. Download the resulting bam and index files on your computer
 
 ```bash
 # To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/*.bam* .
 
 scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam.bai .
 
@@ -321,9 +321,9 @@ You will also need the reference genome sequence and gene annotation files
 ```bash
 # To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_CGD.fasta .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_CGD.fasta .
 
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff .
+scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff .
 ```
 
 4. Visualize mapping results with IGV
