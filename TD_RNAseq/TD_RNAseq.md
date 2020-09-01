@@ -142,7 +142,7 @@ srun fastqc --help
 
 5. Run fastqc on each experiment files
 
-- /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq.gz : **absolute path** to the first file
+- /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/O2rep2_SRR352263.fastq : **absolute path** to the first file
 - -o: creates all output files in the specified output directory. '.' means current directory.
 
 ```bash
@@ -177,6 +177,7 @@ cd ~/Desktop/RNAseq/
 ## Download html report files
 scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/1-QualityControl/*.html .
 # Enter your password
+```
 
 7. Open the *.html* report with ypur favorite browser
 
