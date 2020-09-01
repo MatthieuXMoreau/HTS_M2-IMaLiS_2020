@@ -1,4 +1,4 @@
-# Practical training – RNA-Seq data analysis
+# Practical training – RNA-seq data analysis
 
 
 - [1. Introduction](#intro)
@@ -20,7 +20,7 @@
 
 During this practical session, you will learn :
 
-  * To conduct an analysis of RNAseq raw fastq files. You will first perform **quality control** of the sequencing file before proceding to the **mapping** of the reads on the reference transcriptome.
+  * To conduct an analysis of RNA-seq raw fastq files. You will first perform **quality control** of the sequencing file before proceding to the **mapping** of the reads on the reference transcriptome.
 
   * To perform statistical analysis of the gene expression matrices in order to identify differentialy expressed genes between two conditions
  
@@ -90,7 +90,7 @@ pwd
 
 #
 
-**Fastq** files are raw results from RNA-Seq experiments. These files comprise all the **sequences** (or reads) obtained with the sequencer machine (Illumina technology here), together with **base quality scores** (PHRED scores).
+**Fastq** files are raw results from RNA-seq experiments. These files comprise all the **sequences** (or reads) obtained with the sequencer machine (Illumina technology here), together with **base quality scores** (PHRED scores).
 
 Two different files will be analyzed in this practical (see [Guida *et al*.](https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-12-628) for more information) :
 - ***O2rep2_SRR352263.fastq*** refereed to a transcriptome analysis of yeasts *C. parapsilosis* under normoxic condition.
@@ -190,7 +190,7 @@ scp <login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSd
 
 Once data quality is verified, reads will be mapped onto the reference genome of yeast *C. parapsilosis*. The **genome sequence** of *C. parapsilosis* and its **annotations** (locations of ORFs) were retrieved from the [CGD database](http://www.candidagenome.org/ "Candidat genome database").
 
-Different aligner and algorithms for RNA-Seq analysis exist. We will use [**Bowtie 1.2.2**](http://bowtie-bio.sourceforge.net/manual.shtml)  an ultrafast (memory-efficient) short read aligner. As an input, Bowtie uses a **Fastq file** (with reads to be aligned) and **“pre-built indexes”** of the reference genome. These indexes are named ***“C_parapsilosis.1.ebwt”***, ***“C_parapsilosis.2.ebwt”***, etc. They will allow boosting the alignment process.  
+Different aligner and algorithms for RNA-seq analysis exist. We will use [**Bowtie 1.2.2**](http://bowtie-bio.sourceforge.net/manual.shtml)  an ultrafast (memory-efficient) short read aligner. As an input, Bowtie uses a **Fastq file** (with reads to be aligned) and **“pre-built indexes”** of the reference genome. These indexes are named ***“C_parapsilosis.1.ebwt”***, ***“C_parapsilosis.2.ebwt”***, etc. They will allow boosting the alignment process.  
 As an output, Bowtie provides a **SAM file**. SAM (Sequence Alignment/Map) is a generic format for storing large nucleotide sequence alignments.
 
 #### TO DO : Run sequence alignments with Bowtie using the two FASTQ files. Take a look at Bowtie documentation and describe the specified options (*-m* in particular). What is the proportion of reads aligned on the reference genome?
@@ -309,12 +309,6 @@ srun samtools index noO2rep3_SRR352271_bowtie_sorted.bam
 # To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
 scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/*.bam* .
-
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam.bai .
-
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam .
-
-scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq/2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam.bai .
 ```
 You will also need the reference genome sequence and gene annotation files
 
