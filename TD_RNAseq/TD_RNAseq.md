@@ -271,6 +271,8 @@ Your directory should now look like this :
 
 The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/igv/home) (IGV) is a high-performance **visualization tool** for interactive exploration of large, integrated genomic datasets. It supports a wide variety of data types, including array-based, next-generation sequence data and genomic annotations. In this practical, we will use IGV to visualize mapping results (see previous section). For that, **SAM files** has to be converted into **BAM files** (a binary version of SAM) and “sorted” according to the genomic sequence. We will use programs available in the [**Samtools 1.9**](http://samtools.sourceforge.net/) suite.
 
+#### :heavy_exclamation_mark: TO DO : Run the conversion of SAM files (obtain with BOWTIE) into BAM files and “sorted and indexed” BAM files. Run IGV. :heavy_exclamation_mark:
+
 1. Sort and Converte *.sam* into *.bam* files
 
 >- **samtools sort** Sort alignments by genomic coordinates
