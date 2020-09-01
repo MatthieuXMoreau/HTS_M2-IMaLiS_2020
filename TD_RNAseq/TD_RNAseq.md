@@ -351,7 +351,7 @@ Mapping results (“.sorted.bam” files) can now be imported (“File / Load fr
 
 </p>
 
-#### TO DO : Compare your results with those presented in the original publication : Did the authors use stranded-specific protocols ? Can you observe differences between hypoxic and normoxic conditions ?
+#### TO DO : Compare your results with those presented in the original publication: Did the authors use stranded-specific protocols? Can you observe differences between hypoxic and normoxic conditions?
 
 
 #
@@ -377,24 +377,22 @@ Your directory should now look like this :
 
 ```bash
 /shared/projects/2020_eu_HTSdataAnalysis/<your login>/RNAseq
-│
-└───1-QualityControl
-	│
-	└─── O2rep2_SRR352263.fastqc.zip
-	│
-	└───noO2rep2_SRR352263.fastqc.zip
-│
-└─── 2-Mapping
-	│
-	└─── O2rep2_SRR352263_bowtie_mapping.sam
-	│
-	└─── O2rep2_SRR352263_bowtie_mapping.out
-	│
-	└─── noO2rep3_SRR352271_bowtie_mapping.sam
-	│
-	└─── noO2rep3_SRR352271_bowtie_mapping.out
-│
-└─── 3-ORF_reads_count
+├── 1-QualityControl
+│   ├── noO2rep3_SRR352271_fastqc.html
+│   ├── noO2rep3_SRR352271_fastqc.zip
+│   ├── O2rep2_SRR352263_fastqc.html
+│   └── O2rep2_SRR352263_fastqc.zip
+├── 2-Mapping
+│   ├── noO2rep3_SRR352271_bowtie_mapping.out
+│   ├── noO2rep3_SRR352271_bowtie_mapping.sam
+│   ├── noO2rep3_SRR352271_bowtie_sorted.bam
+│   ├── noO2rep3_SRR352271_bowtie_sorted.bam.bai
+│   ├── O2rep2_SRR352263_bowtie_mapping.out
+│   ├── O2rep2_SRR352263_bowtie_mapping.sam
+│   ├── O2rep2_SRR352263_bowtie_sorted.bam
+│   └── O2rep2_SRR352263_bowtie_sorted.bam.bai
+└── 3-ORF_reads_count
+
 ```
 
 2. Go to this directory
@@ -410,18 +408,20 @@ module load bedtools/2.27.1
 ```
 
 ```bash
-srun bedtools multicov -bams ../O2rep2_SRR352263_bowtie_sorted.bam \
--bed /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
+srun bedtools multicov -bams ../2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam \
+-bed /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
 
 srun sed 's/^.*ID=//' O2rep2_SRR352263_gene_counts.gff > O2rep2_SRR352263_gene_counts.tab
 ```
 
 ```bash
-srun bedtools multicov -bams ../noO2rep2_SRR352263_bowtie_sorted.bam \
--bed /shared/projects/2020_eu_HTSdataAnalysis/RNAseq/IGV/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
+srun bedtools multicov -bams ../2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam \
+-bed /shared/projects/2020_eu_HTSdataAnalysis/rnaseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
 
 srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_gene_counts.tab
 ```
+
+Take a look at the product files to see how the count files are organised
 
 4. Unload the tools you used
 
