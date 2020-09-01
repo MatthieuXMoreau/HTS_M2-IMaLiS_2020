@@ -6,7 +6,7 @@ In a web browser, connect to https://rstudio.cluster.france-bioinformatique.fr/a
 
 <p align="center">
 
-<img src="HTSdataAnalysis_M2-IMaLiS_2020/TD_RNAseq/images/Rstudio.png" width="30%">
+<img src="../TD_RNAseq/images/Rstudio.png" width="30%">
 
 </p>
 
@@ -15,7 +15,7 @@ You will reached the familiar Rstudio environment :
 
 <p align="center">
 
-<img src="HTSdataAnalysis_M2-IMaLiS_2020/TD_RNAseq/images/RstudioScreen.png" width="50%">
+<img src="../TD_RNAseq/images/RstudioScreen.png" width="50%">
 
 </p>
 
