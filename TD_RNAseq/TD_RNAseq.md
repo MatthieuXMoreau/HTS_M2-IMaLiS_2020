@@ -133,16 +133,16 @@ The main functions of FastQC are:
 
 5. Run fastqc on each experiment files
 
-	>- **/shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq** is the absolute path to the first file
+	>- **/shared/projects/ens_hts_2020/data/rnaseq/O2rep2_SRR352263.fastq** is the absolute path to the first file
 	>- **-o** creates all output files in the specified output directory. '.' means current directory.
 
 	```bash
 	# O2 condition reads
-	srun fastqc /shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq -o .
+	srun fastqc /shared/projects/ens_hts_2020/data/rnaseq/O2rep2_SRR352263.fastq -o .
 	```
 	```bash
 	# noO2 condition reads
-	srun fastqc /shared/projects/ens_hts_2020/rnaseq/noO2rep2_SRR352263.fastq -o .
+	srun fastqc /shared/projects/ens_hts_2020/data/rnaseq/noO2rep2_SRR352263.fastq -o .
 	```
 	At this point you should see the two new files in your directory using the `tree` command
 	```bash
@@ -215,21 +215,21 @@ As an output, Bowtie provides a **SAM file**. SAM (Sequence Alignment/Map) is a 
 4. Map the reads to the reference genome
 
 	>- **-S** will output the result in SAM format
-	>- **/shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
-	>- **/shared/projects/ens_hts_2020/rnaseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
+	>- **/shared/projects/ens_hts_2020/data/rnaseq/bowtie_indexes/C_parapsilosis** specify the location and the **prefix (C_parapsilosis)** of the bowtie's index files
+	>- **/shared/projects/ens_hts_2020/data/rnaseq/Fastqc/O2rep2_SRR352263.fastq.gz** location of the input fastq
 	>- **2>** will print some statistic about the aligment (#of reads mapped, etc...)
 	>- **>** redirects the mapping output into a .sam file
 
 	```bash
 	# Map the aerobic condition reads
-	srun bowtie -S /shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis \
-		/shared/projects/ens_hts_2020/rnaseq/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
+	srun bowtie -S /shared/projects/ens_hts_2020/data/rnaseq/bowtie_indexes/C_parapsilosis \
+		/shared/projects/ens_hts_2020/data/rnaseq/O2rep2_SRR352263.fastq 2> O2rep2_SRR352263_bowtie_mapping.out > O2rep2_SRR352263_bowtie_mapping.sam
 	```
 
 	```bash
 	# Map the hypoxic condition reads
-	srun bowtie -S /shared/projects/ens_hts_2020/rnaseq/bowtie_indexes/C_parapsilosis \
-		/shared/projects/ens_hts_2020/rnaseq/noO2rep3_SRR352271.fastq 2> noO2rep3_SRR352271_bowtie_mapping.out > noO2rep3_SRR352271_bowtie_mapping.sam
+	srun bowtie -S /shared/projects/ens_hts_2020/data/rnaseq/bowtie_indexes/C_parapsilosis \
+		/shared/projects/ens_hts_2020/data/rnaseq/noO2rep3_SRR352271.fastq 2> noO2rep3_SRR352271_bowtie_mapping.out > noO2rep3_SRR352271_bowtie_mapping.sam
 	```
 
 Your directory should now look like this :
@@ -299,9 +299,9 @@ The [Integrative Genomics Viewer](http://software.broadinstitute.org/software/ig
 	```bash
 	# To download the bam files from the cluster to your current directory (on your own computer), **open a new shell and run**
 
-	scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_CGD.fasta .
+	scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/data/rnaseq/C_parapsilosis_CGD.fasta .
 
-	scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff .
+	scp  <your login>@core.cluster.france-bioinformatique.fr:/shared/projects/ens_hts_2020/data/rnaseq/C_parapsilosis_ORFs.gff .
 	```
 
 4. Visualize mapping results with IGV
@@ -393,14 +393,14 @@ To identify genes whose expression is different between hypoxic and normoxic con
 
 	```bash
 	srun bedtools multicov -bams ../2-Mapping/O2rep2_SRR352263_bowtie_sorted.bam \
-	-bed /shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
+	-bed /shared/projects/ens_hts_2020/data/rnaseq/C_parapsilosis_ORFs.gff > O2rep2_SRR352263_gene_counts.gff
 
 	srun sed 's/^.*ID=//' O2rep2_SRR352263_gene_counts.gff > O2rep2_SRR352263_gene_counts.tab
 	```
 
 	```bash
 	srun bedtools multicov -bams ../2-Mapping/noO2rep3_SRR352271_bowtie_sorted.bam \
-	-bed /shared/projects/ens_hts_2020/rnaseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
+	-bed /shared/projects/ens_hts_2020/data/rnaseq/C_parapsilosis_ORFs.gff > noO2rep3_SRR352271_gene_counts.gff
 
 	srun sed 's/^.*ID=//' noO2rep3_SRR352271_gene_counts.gff > noO2rep3_SRR352271_gene_counts.tab
 	```
@@ -461,7 +461,7 @@ In their article (Guida et al., 2011), the authors repeated the experiment 6 tim
 
 2. Save the working notebook containing all the code in your personal environment
 
-	* In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/rnaseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
+	* In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/data/rnaseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
 	* Save it into your personal folder using *File > Save As* 
 
 
