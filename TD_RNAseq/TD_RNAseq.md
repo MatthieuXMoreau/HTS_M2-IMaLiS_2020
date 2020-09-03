@@ -149,7 +149,7 @@ srun fastqc /shared/projects/ens_hts_2020/data/rnaseq/O2rep2_SRR352263.fastq -o 
 ```
 ```bash
 # noO2 condition reads
-srun fastqc /shared/projects/ens_hts_2020/data/rnaseq/noO2rep2_SRR352263.fastq -o .
+srun fastqc /shared/projects/ens_hts_2020/data/rnaseq/noO2rep3_SRR352271.fastq -o .
 ```
 At this point you should see the two new files in your directory using the `tree` command
 
@@ -159,8 +159,8 @@ At this point you should see the two new files in your directory using the `tree
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	└─── noO2rep2_SRR352263.fastqc.html
-	└─── noO2rep2_SRR352263.fastqc.zip
+	└─── noO2rep3_SRR352271.fastqc.html
+	└─── noO2rep3_SRR352271.fastqc.zip
 ```
 6. Download the HTML file reports on your local machine
 
@@ -210,8 +210,8 @@ Your directory should now look like this :
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	└─── noO2rep2_SRR352263.fastqc.html
-	└─── noO2rep2_SRR352263.fastqc.zip
+	└─── noO2rep3_SRR352271.fastqc.html
+	└─── noO2rep3_SRR352271.fastqc.zip
 └─── 2-Mapping
 ```
 
@@ -254,8 +254,8 @@ Your directory should now look like this :
 └───1-QualityControl
 	└─── O2rep2_SRR352263.fastqc.html
 	└─── O2rep2_SRR352263.fastqc.zip
-	└─── noO2rep2_SRR352263.fastqc.html
-	└─── noO2rep2_SRR352263.fastqc.zip
+	└─── noO2rep3_SRR352271.fastqc.html
+	└─── noO2rep3_SRR352271.fastqc.zip
 └─── 2-Mapping
 	└─── O2rep2_SRR352263_bowtie_mapping.sam
 	└─── O2rep2_SRR352263_bowtie_mapping.out
