@@ -461,7 +461,7 @@ In their article (Guida et al., 2011), the authors repeated the experiment 6 tim
 
 2. Save the working notebook containing all the code in your personal environment
 
-	* In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/data/rnaseq/R/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
+	* In *File > Open File...* enter the path ***/shared/projects/ens_hts_2020/data/rnaseq/DEseq2.Rmd*** to open the notebook containing all the code needed for the practical.  
 	* Save it into your personal folder using *File > Save As* 
 
 
